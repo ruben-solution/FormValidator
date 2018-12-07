@@ -6,6 +6,9 @@ abstract class Validate
 {
     const COLOR_HEX = 1;
     const COLOR_RGB = 2;
+    const COLOR_RGBA = 3;
+    const COLOR_HSL = 4;
+    const COLOR_HSLA = 5;
 
     /**
      * @param string $str
@@ -108,8 +111,8 @@ abstract class Validate
     public static function isDate($date, string $pattern='Y-m-d'): bool
     {
         $date = trim($date);
-        $d = \DateTime::createFromFormat($pattern, trim($date));
-        return $d && $d->format($pattern) === $date;
+        $dateTime = \DateTime::createFromFormat($pattern, trim($date));
+        return $dateTime && $dateTime->format($pattern) === $date;
     }
 
     /**
@@ -143,11 +146,23 @@ abstract class Validate
         $color = trim($color);
 
         switch ($type) {
-            case 1:
-                $pattern = '/^rgb\(([0-9]{1,3}),\s?([0-9]{1,3}),\s?([0-9]{1,3})\)$/';
+            case self::COLOR_HEX:
+                $pattern = '/^#?(([A-Fa-f0-9]{6})|([A-Fa-f0-9]{3}))$/';
+                break;
+            case self::COLOR_RGB:
+                $pattern = '/^rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)$|^(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)$/';
+                break;
+            case self::COLOR_RGBA:
+                $pattern = '/^rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0?\.\d|1(\.0)?)\)$|^(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\s*,\s*(0?\.\d|1(\.0)?)$/';
+                break;
+            case self::COLOR_HSL:
+                $pattern = '/^hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d)\s*,\s*(0|100|\d{1,2})%\s*,\s*(0|100|\d{1,2})%\)$|^(0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d)\s*,\s*(0|100|\d{1,2})%\s*,\s*(0|100|\d{1,2})%$/';
+                break;
+            case self::COLOR_HSLA:
+                $pattern = '/^hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d)\s*,\s*(0|100|\d{1,2})%\s*,\s*(0|100|\d{1,2})%\s*,\s*(0?\.\d|1(\.0)?)\)$|^(0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d)\s*,\s*(0|100|\d{1,2})%\s*,\s*(0|100|\d{1,2})%\s*,\s*(0?\.\d|1(\.0)?)$/';
                 break;
             default:
-                $pattern = '/^#(([A-Fa-f0-9]{6})|([A-Fa-f0-9]{3}))$/';
+                return false;
         }
 
         return preg_match($pattern, $color) === 1;
@@ -158,7 +173,7 @@ abstract class Validate
      * 
      * @return bool
      */
-    public static function isEmail(sring $email): bool
+    public static function isEmail(string $email): bool
     {
         return filter_var(trim($email), FILTER_VALIDATE_EMAIL) !== false && !empty($email);
     }

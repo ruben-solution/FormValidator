@@ -95,6 +95,7 @@ class Form
     public function validate(): array
     {
         $errors = [];
+        $colorFormats = ['hex', 'rgb', 'rgba', 'hsl', 'hsla'];
 
         foreach ($this->fields as $field) {
             $fieldKey = $field->getKey();
@@ -172,6 +173,36 @@ class Form
                     case 'url':
                         if (!Validate::isUrl($fieldValue)) {
                             $errors[] = $fieldKey;
+                        }
+
+                        break;
+                    case 'color':
+                        if (isset($rules['format']) && \in_array($rules['format'], $colorFormats)) {
+                            if ($rules['format'] === 'hex') {
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HEX)) {
+                                    $errors[] = $fieldKey;
+                                }
+                            } elseif ($rules['format'] === 'rgb') {
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGB)) {
+                                    $errors[] = $fieldKey;
+                                }
+                            } elseif ($rules['format'] === 'rgba') {
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGBA)) {
+                                    $errors[] = $fieldKey;
+                                }
+                            } elseif ($rules['format'] === 'hsl') {
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSL)) {
+                                    $errors[] = $fieldKey;
+                                }
+                            } elseif ($rules['format'] === 'hsla') {
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSLA)) {
+                                    $errors[] = $fieldKey;
+                                }
+                            }
+                        } else {
+                            if (!Validate::isColor($fieldValue)) {
+                                $errors[] = $fieldKey;
+                            }
                         }
 
                         break;

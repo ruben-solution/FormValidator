@@ -36,6 +36,11 @@ $form = new Form(
             'type:date|required:true|format:Y-m-d'
         ),
         new Field(
+            'Color',
+            'hsl(170, 50%, 45%)',
+            'type:color|required:true|format:hsl'
+        ),
+        new Field(
             'Website',
             'https://www.google.ch/',
             'type:url'
