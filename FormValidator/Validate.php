@@ -1,13 +1,16 @@
 <?php
 
-namespace Form;
+namespace FormValidator;
 
+/**
+ * @author Ruben Allenspach <ruben.allenspach@solution.ch>
+ */
 abstract class Validate
 {
-    const COLOR_HEX = 1;
-    const COLOR_RGB = 2;
+    const COLOR_HEX  = 1;
+    const COLOR_RGB  = 2;
     const COLOR_RGBA = 3;
-    const COLOR_HSL = 4;
+    const COLOR_HSL  = 4;
     const COLOR_HSLA = 5;
 
     /**
@@ -82,24 +85,8 @@ abstract class Validate
      */
     public static function isUrl($url): bool
     {
-        $rUrl = '/^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)$/';
-        return preg_match($rUrl, $url) !== false && preg_match($rUrl, $url) !== 0 && !empty($url);
-    }
-
-    /**
-     * @param string $boolean
-     * 
-     * @return bool
-     */
-    public static function isBool($boolean): bool
-    {
-        $boolean = trim($boolean);
-
-        return (
-            $boolean === 'true' || $boolean === 'false' ||
-            $boolean === true || $boolean === false ||
-            (int) $boolean === 0 || (int) $boolean === 1
-        );
+        $pattern = '/^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)$/';
+        return preg_match($pattern, $url) !== false && preg_match($pattern, $url) !== 0 && !empty($url);
     }
 
     /**

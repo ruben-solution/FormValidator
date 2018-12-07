@@ -1,34 +1,33 @@
 <?php
 
-namespace Form;
+namespace FormValidator;
 
+/**
+ * @author Ruben Allenspach <ruben.allenspach@solution.ch>
+ */
 class Field
 {
     private $key;
     private $value;
     private $rules;
-    private $allowedValues;
     private $name;
 
     /**
      * @param string       $key
      * @param string|array $value
      * @param string       $rules
-     * @param array        $allowedValues
      * @param string       $name
      */
     function __construct(
         $key,
         $value=null,
         $rules,
-        $allowedValues=array(),
         $name=''
     )
     {
         $this->key = $key;
         $this->value = $value;
         $this->rules = $rules;
-        $this->allowedValues = $allowedValues;
         $this->name = $name;
     }
 
@@ -78,22 +77,6 @@ class Field
     public function setRules($rules)
     {
         $this->rules = $rules;
-    }
-
-    /**
-     * @param string $allowedValues
-     */
-    public function getAllowedValues(): string
-    {
-        return $this->allowedValues;
-    }
-
-    /**
-     * @return string
-     */
-    public function setAllowedValues($allowedValues)
-    {
-        $this->allowedValues = $allowedValues;
     }
 
     /**

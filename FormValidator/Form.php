@@ -1,7 +1,13 @@
 <?php
 
-namespace Form;
+namespace FormValidator;
 
+use FormValidator\Validate;
+use FormValidator\Field;
+
+/**
+ * @author Ruben Allenspach <ruben.allenspach@solution.ch>
+ */
 class Form
 {
     /** @var Field[] $fields */
@@ -159,69 +165,41 @@ class Form
 
                         break;
                     case 'email':
-                        if (!Validate::isEmail($fieldValue)) {
-                            $errors[] = $fieldKey;
-                        }
-
-                        break;
-                    case 'bool':
-                        if (!Validate::isBool($fieldValue)) {
-                            $errors[] = $fieldKey;
-                        }
+                        if (!Validate::isEmail($fieldValue)) $errors[] = $fieldKey;
 
                         break;
                     case 'url':
-                        if (!Validate::isUrl($fieldValue)) {
-                            $errors[] = $fieldKey;
-                        }
+                        if (!Validate::isUrl($fieldValue)) $errors[] = $fieldKey;
 
                         break;
                     case 'color':
                         if (isset($rules['format']) && \in_array($rules['format'], $colorFormats)) {
                             if ($rules['format'] === 'hex') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HEX)) {
-                                    $errors[] = $fieldKey;
-                                }
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HEX)) $errors[] = $fieldKey;
                             } elseif ($rules['format'] === 'rgb') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGB)) {
-                                    $errors[] = $fieldKey;
-                                }
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGB)) $errors[] = $fieldKey;
                             } elseif ($rules['format'] === 'rgba') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGBA)) {
-                                    $errors[] = $fieldKey;
-                                }
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGBA)) $errors[] = $fieldKey;
                             } elseif ($rules['format'] === 'hsl') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSL)) {
-                                    $errors[] = $fieldKey;
-                                }
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSL)) $errors[] = $fieldKey;
                             } elseif ($rules['format'] === 'hsla') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSLA)) {
-                                    $errors[] = $fieldKey;
-                                }
+                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSLA)) $errors[] = $fieldKey;
                             }
                         } else {
-                            if (!Validate::isColor($fieldValue)) {
-                                $errors[] = $fieldKey;
-                            }
+                            if (!Validate::isColor($fieldValue)) $errors[] = $fieldKey;
                         }
 
                         break;
                     case 'date':
                         if (isset($rules['format'])) {
-                            if (!Validate::isDate($fieldValue, $rules['format'])) {
-                                $errors[] = $fieldKey;
-                            }
+                            if (!Validate::isDate($fieldValue, $rules['format'])) $errors[] = $fieldKey;
                         } else {
-                            if (!Validate::isDate($fieldValue)) {
-                                $errors[] = $fieldKey;
-                            }
+                            if (!Validate::isDate($fieldValue)) $errors[] = $fieldKey;
                         }
 
                         break;
                     case 'array':
-                        if (!Validate::isArray($fieldValue)) {
-                            $errors[] = $fieldKey;
-                        }
+                        if (!Validate::isArray($fieldValue)) $errors[] = $fieldKey;
 
                         break;
                     case 'string':
