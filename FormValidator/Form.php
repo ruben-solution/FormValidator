@@ -33,7 +33,7 @@ class Form
 
     /**
      * Get field by key
-     * 
+     *
      * @param Field $field
      */
     public function addField(Field $field)
@@ -50,9 +50,9 @@ class Form
 
     /**
      * Get field by key
-     * 
+     *
      * @param string $key
-     * 
+     *
      * @return Field
      */
     public function getField($key)
@@ -70,9 +70,9 @@ class Form
      * The bar character "|" is only allowed in regex patterns.
      * So if you want to validate a date with this character in
      * the format, you can't. It's that simple
-     * 
+     *
      * @param string $validationString
-     * 
+     *
      * @return array
      */
     private function parseValidationString($validationString)
@@ -95,7 +95,7 @@ class Form
 
     /**
      * Validate form
-     * 
+     *
      * @return array Returns an array with errors. if the array is empty, everything is oki-doki.
      */
     public function validate(): array
@@ -116,19 +116,19 @@ class Form
                 // is required
                 $fieldRequired || (
                     // is not required but has value that needs to be validated
-                    !$fieldRequired &&
-                    (
+                    !$fieldRequired && (
                         (
-                            $fieldType === 'string' &&
+                            $fieldType  === 'string' &&
                             $fieldValue !== ''
                         ) ||
                         (
-                            $fieldType === 'array' &&
+                            $fieldType         === 'array' &&
                             count($fieldValue) !== 0
                         ) ||
                         (
-                            $fieldType !== 'array' &&
-                            $fieldType !== 'string'
+                            $fieldType  !== 'array' &&
+                            $fieldType  !== 'string' &&
+                            $fieldValue !== ''
                         )
                     )
                 )
