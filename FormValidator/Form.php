@@ -313,7 +313,23 @@ class Form
         foreach ($this->fields as $field) {
             $fieldKey      = $field->getKey();
             $fieldValue    = $field->getValue();
-            $rules         = $this->parseValidationString($field->getRules());
+            $rules         = (
+                is_array($field->getRules()) ?
+                    $field->getRules() :
+                    $this->parseValidationString($field->getRules())
+            );
+
+            if (
+                // if rules holds fixed values
+                is_array($field->getRules())
+            ) {
+                if (!in_array($fieldValue, $rules)) {
+                    $errors[] = $fieldKey;
+                }
+
+                continue;
+            }
+
             $fieldRequired = isset($rules['required']) && $rules['required'] === 'true';
             $fieldType     = isset($rules['type']) ? $rules['type'] : 'string';
 

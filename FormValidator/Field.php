@@ -15,7 +15,7 @@ class Field
     /**
      * @param string       $key
      * @param string|array $value
-     * @param string       $rules
+     * @param string|array $rules
      * @param string       $name
      */
     function __construct(
@@ -64,15 +64,15 @@ class Field
     }
 
     /**
-     * @param string $rules
+     * @param string|array $rules
      */
-    public function getRules(): string
+    public function getRules()
     {
         return $this->rules;
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function setRules($rules)
     {
