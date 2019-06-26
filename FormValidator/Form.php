@@ -94,6 +94,216 @@ class Form
     }
 
     /**
+     * Handles validation of number
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateNumber($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (!Validate::isNumber($value)) {
+            $hasError = true;
+        } else {
+            if (
+                isset($rules['positive']) &&
+                $rules['positive'] === 'true' &&
+                !Validate::isNumberPos($value)
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['negative']) &&
+                $rules['negative'] === 'true' &&
+                !Validate::isNumberNeg($value)
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['nonzero']) &&
+                $rules['nonzero'] === 'true' &&
+                !Validate::isNumberNz($value)
+            ) {
+                $hasError = true;
+            }
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of string
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateString($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (!Validate::isStringNotEmpty($value)) {
+            $hasError = true;
+        } else {
+            if (
+                isset($rules['regex']) &&
+                !Validate::regex($rules['regex'], $value)
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['max']) &&
+                \strlen($value) > (int) $rules['max']
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['min']) &&
+                \strlen($value) < (int) $rules['min']
+            ) {
+                $hasError = true;
+            }
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of color
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateColor($value, $rules): bool
+    {
+        $hasError = false;
+
+        $colorFormats = ['hex', 'rgb', 'rgba', 'hsl', 'hsla'];
+
+        if (isset($rules['format']) && \in_array($rules['format'], $colorFormats)) {
+            if ($rules['format'] === 'hex') {
+                if (!Validate::isColor($value, Validate::COLOR_HEX)) {
+                    $hasError = true;
+                }
+            } elseif ($rules['format'] === 'rgb') {
+                if (!Validate::isColor($value, Validate::COLOR_RGB)) {
+                    $hasError = true;
+                }
+            } elseif ($rules['format'] === 'rgba') {
+                if (!Validate::isColor($value, Validate::COLOR_RGBA)) {
+                    $hasError = true;
+                }
+            } elseif ($rules['format'] === 'hsl') {
+                if (!Validate::isColor($value, Validate::COLOR_HSL)) {
+                    $hasError = true;
+                }
+            } elseif ($rules['format'] === 'hsla') {
+                if (!Validate::isColor($value, Validate::COLOR_HSLA)) {
+                    $hasError = true;
+                }
+            }
+        } else {
+            if (!Validate::isColor($value)) {
+                $hasError = true;
+            }
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of date
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateDate($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (isset($rules['format'])) {
+            if (!Validate::isDate($value, $rules['format'])) {
+                $hasError = true;
+            }
+        } else {
+            if (!Validate::isDate($value)) {
+                $hasError = true;
+            }
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of email
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateEmail($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (!Validate::isEmail($value)) {
+            $hasError = true;
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of URL
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateURL($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (!Validate::isUrl($value)) {
+            $hasError = true;
+        }
+
+        return !$hasError;
+    }
+
+    /**
+     * Handles validation of array
+     *
+     * @param string $value
+     * @param array  $rules
+     *
+     * @return bool
+     */
+    private function validateArray($value, $rules): bool
+    {
+        $hasError = false;
+
+        if (!Validate::isArray($value)) {
+            $hasError = true;
+        }
+
+        return !$hasError;
+    }
+
+    /**
      * Validate form
      *
      * @return array Returns an array with errors. if the array is empty, everything is oki-doki.
@@ -101,7 +311,6 @@ class Form
     public function validate(): array
     {
         $errors = [];
-        $colorFormats = ['hex', 'rgb', 'rgba', 'hsl', 'hsla'];
 
         foreach ($this->fields as $field) {
             $fieldKey = $field->getKey();
@@ -135,97 +344,44 @@ class Form
             ) {
                 switch($fieldType) {
                     case 'number':
-                        if (!Validate::isNumber($fieldValue)) {
+                        if (!$this->validateNumber($fieldValue, $rules)) {
                             $errors[] = $fieldKey;
-                        } else {
-                            if (
-                                isset($rules['positive']) &&
-                                $rules['positive'] === 'true' &&
-                                !Validate::isNumberPos($fieldValue)
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
-
-                            if (
-                                isset($rules['negative']) &&
-                                $rules['negative'] === 'true' &&
-                                !Validate::isNumberNeg($fieldValue)
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
-
-                            if (
-                                isset($rules['nonzero']) &&
-                                $rules['nonzero'] === 'true' &&
-                                !Validate::isNumberNz($fieldValue)
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
                         }
 
                         break;
                     case 'email':
-                        if (!Validate::isEmail($fieldValue)) $errors[] = $fieldKey;
+                        if (!$this->validateEmail($fieldValue, $rules)) {
+                            $errors[] = $fieldKey;
+                        }
 
                         break;
                     case 'url':
-                        if (!Validate::isUrl($fieldValue)) $errors[] = $fieldKey;
+                        if (!$this->validateURL($fieldValue, $rules)) {
+                            $errors[] = $fieldKey;
+                        }
 
                         break;
                     case 'color':
-                        if (isset($rules['format']) && \in_array($rules['format'], $colorFormats)) {
-                            if ($rules['format'] === 'hex') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HEX)) $errors[] = $fieldKey;
-                            } elseif ($rules['format'] === 'rgb') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGB)) $errors[] = $fieldKey;
-                            } elseif ($rules['format'] === 'rgba') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_RGBA)) $errors[] = $fieldKey;
-                            } elseif ($rules['format'] === 'hsl') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSL)) $errors[] = $fieldKey;
-                            } elseif ($rules['format'] === 'hsla') {
-                                if (!Validate::isColor($fieldValue, Validate::COLOR_HSLA)) $errors[] = $fieldKey;
-                            }
-                        } else {
-                            if (!Validate::isColor($fieldValue)) $errors[] = $fieldKey;
+                        if (!$this->validateColor($fieldValue, $rules)) {
+                            $errors[] = $fieldKey;
                         }
 
                         break;
                     case 'date':
-                        if (isset($rules['format'])) {
-                            if (!Validate::isDate($fieldValue, $rules['format'])) $errors[] = $fieldKey;
-                        } else {
-                            if (!Validate::isDate($fieldValue)) $errors[] = $fieldKey;
+                        if (!$this->validateDate($fieldValue, $rules)) {
+                            $errors[] = $fieldKey;
                         }
 
                         break;
                     case 'array':
-                        if (!Validate::isArray($fieldValue)) $errors[] = $fieldKey;
+                        if (!$this->validateArray($fieldValue, $rules)) {
+                            $errors[] = $fieldKey;
+                        }
 
                         break;
                     case 'string':
-                        if (!Validate::isStringNotEmpty($fieldValue)) {
+                        if (!$this->validateString($fieldValue, $rules)) {
                             $errors[] = $fieldKey;
-                        } else {
-                            if (
-                                isset($rules['regex']) &&
-                                !Validate::regex($rules['regex'], $fieldValue)
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
-
-                            if (
-                                isset($rules['max']) &&
-                                \strlen($fieldValue) > (int) $rules['max']
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
-
-                            if (
-                                isset($rules['min']) &&
-                                \strlen($fieldValue) < (int) $rules['min']
-                            ) {
-                                $errors[] = $fieldKey;
-                            }
                         }
 
                         break;
