@@ -21,8 +21,6 @@ class Form
      */
     function __construct(array $fields)
     {
-        $uniqueFields = [];
-
         foreach ($fields as $field) {
             if (!\in_array($field->getKey(), $this->keys)) {
                 $this->keys[] = $field->getKey();
@@ -313,27 +311,28 @@ class Form
         $errors = [];
 
         foreach ($this->fields as $field) {
-            $fieldKey = $field->getKey();
-            $fieldValue = $field->getValue();
-
-            $rules = $this->parseValidationString($field->getRules());
-
+            $fieldKey      = $field->getKey();
+            $fieldValue    = $field->getValue();
+            $rules         = $this->parseValidationString($field->getRules());
             $fieldRequired = isset($rules['required']) && $rules['required'] === 'true';
-            $fieldType = isset($rules['type']) ? $rules['type'] : 'string';
+            $fieldType     = isset($rules['type']) ? $rules['type'] : 'string';
 
             if (
                 // is required
                 $fieldRequired || (
                     // is not required but has value that needs to be validated
                     !$fieldRequired && (
+                        // field type is string and value is not empty
                         (
                             $fieldType  === 'string' &&
                             $fieldValue !== ''
                         ) ||
+                        // OR field type is array and has values
                         (
                             $fieldType         === 'array' &&
                             count($fieldValue) !== 0
                         ) ||
+                        // OR field type is not array nor string and value is not empty
                         (
                             $fieldType  !== 'array' &&
                             $fieldType  !== 'string' &&
@@ -342,7 +341,7 @@ class Form
                     )
                 )
             ) {
-                switch($fieldType) {
+                switch ($fieldType) {
                     case 'number':
                         if (!$this->validateNumber($fieldValue, $rules)) {
                             $errors[] = $fieldKey;
