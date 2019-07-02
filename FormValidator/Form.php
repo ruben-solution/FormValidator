@@ -408,4 +408,25 @@ class Form
 
         return $errors;
     }
+
+    /**
+     * Returns array with all fields and their values
+     *
+     * @return array
+     */
+    public function getFields(): array
+    {
+        $fields = [];
+
+        foreach ($this->fields as $field) {
+            $fields[] = [
+                'key'   => $field->getKey(),
+                'value' => $field->getValue(),
+                'rules' => $field->getRules(),
+                'name'  => $field->getName()
+            ];
+        }
+
+        return $fields;
+    }
 }

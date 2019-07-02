@@ -25,3 +25,4 @@ $form = new Form(
 );
 
 print_r($form->validate());
+print_r($form->getFields());
