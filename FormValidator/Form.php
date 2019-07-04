@@ -129,6 +129,20 @@ class Form
             ) {
                 $hasError = true;
             }
+
+            if (
+                isset($rules['max']) &&
+                \floatval($value) > \floatval($rules['max'])
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['min']) &&
+                \floatval($value) < \floatval($rules['min'])
+            ) {
+                $hasError = true;
+            }
         }
 
         return !$hasError;
