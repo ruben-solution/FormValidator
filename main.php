@@ -20,8 +20,8 @@ $form = new Form(
         new Field('Date',       '2018-13-15',           'type:date  |required:false|format:Y-m-d'),
         new Field('Color',      'hsl(170, 50%, 45%)',   'type:color |required:false|format:hsl'),
         new Field('Gender',     'Anrede',               ['', 'Herr', 'Frau']),
-        new Field('Number',     '135.2',                'type:number|required:true|max:135.1|min:5.024'),
-        new Field('Array',      ['a', 123],             'type:array |required:true|min:3|max:5'),
+        new Field('Number',     '135.2',                'type:number|required:true |max:135.1|min:5.024'),
+        new Field('Array',      ['a', 123],             'type:array |required:true |min:1    |max:1'),
     ]
 );
 

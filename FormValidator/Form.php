@@ -310,6 +310,20 @@ class Form
 
         if (!Validate::isArray($value)) {
             $hasError = true;
+        } else {
+            if (
+                isset($rules['max']) &&
+                (int) $rules['max'] < count($value)
+            ) {
+                $hasError = true;
+            }
+
+            if (
+                isset($rules['min']) &&
+                (int) $rules['min'] > count($value)
+            ) {
+                $hasError = true;
+            }
         }
 
         return !$hasError;
