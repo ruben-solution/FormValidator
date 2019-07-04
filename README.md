@@ -3,7 +3,6 @@
 Makes standard validation more pleasant.
 
 ```php
-
 /** @var Form $from */
 $form = new Form(
     [
@@ -17,22 +16,21 @@ $errors = $form->validate();
 if (count($errors) > 0) {
     // error handling
 }
-
 ```
 
 ## Usage
 
+### Simple Form
+
 This is not a composer package (yet), so you habe to include the scripts manually.
 
 ```php
-
 require __DIR__ . '/FormValidator/Form.php';
 require __DIR__ . '/FormValidator/Field.php';
 require __DIR__ . '/FormValidator/Validate.php';
 
 use FormValidator\Field;
 use FormValidator\Form;
-
 ```
 
 If you do not want to use namespaces, you can remove them from all the files.
@@ -40,7 +38,6 @@ If you do not want to use namespaces, you can remove them from all the files.
 After that, you create a new form with fields:
 
 ```php
-
 /** @var Form */
 $form = new Form(
     [
@@ -53,13 +50,11 @@ $form = new Form(
         new Field('number_two', '135.2',                'type:number|required:true|max:135.1|min:5.024')
     ]
 );
-
 ```
 
 To further add new fields later in the script, you can use the method `addField(Field $field)`:
 
 ```php
-
 $form->addField(
     new Field(
         'new_field',
@@ -68,23 +63,21 @@ $form->addField(
         'Additional Field'
     )
 );
-
 ```
 
 A Field can have one more parameter, that acts like a title, which one can use to generate emails or tables.
 
+### Errors
+
 Now, to validate the form, simply run:
 
 ```php
-
 $errors = $form->validate();
-
 ```
 
 `$errors` will hold all field keys, that were no successfully validated. In this case, it will look like this:
 
 ```
-
 Array
 (
     [0] => number_one
@@ -92,13 +85,13 @@ Array
     [2] => gender
     [3] => number_two
 )
-
 ```
+
+### More useful Methods
 
 To get a specific Field use the method `getField($key)` on `$form`. The Field object itself has some options to retrive data from it:
 
 ```php
-
 /** @var Field */
 $field = $form->getField('date');
 
@@ -106,13 +99,11 @@ $field->getKey();   // 'new_field'
 $field->getValue(); // 'Lorem'
 $field->getRules(); // 'type:string|required:true|max:1024'
 $field->getName();  // 'Additional Field'
-
 ```
 
 To get all field data in one array (much faster than one by one) use `getFields()`:
 
 ```php
-
 $all_fields = $form->getFields();
 
 /*
@@ -142,7 +133,6 @@ Array
 )
 
 */
-
 ```
 
 ### Types and possible Filters
