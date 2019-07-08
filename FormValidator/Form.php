@@ -34,7 +34,7 @@ class Form
      *
      * @param Field $field
      */
-    public function addField(Field $field)
+    public function addField(Field $field): bool
     {
         if (!\in_array($field->getKey(), $this->keys)) {
             $this->keys[] = $field->getKey();
@@ -51,7 +51,7 @@ class Form
      *
      * @param string $key
      *
-     * @return Field
+     * @return Field|bool
      */
     public function getField($key)
     {
@@ -65,30 +65,27 @@ class Form
     }
 
     /**
-     * The bar character "|" is only allowed in regex patterns.
-     * So if you want to validate a date with this character in
-     * the format, you can't. It's that simple
+     * Parse validation string. Output is key-value array of rule name and value
      *
      * @param string $validationString
      *
      * @return array
      */
-    private function parseValidationString($validationString)
+    private function parseValidationString($validationString): array
     {
-        $parsedValidationString = $matches = [];
+        $rules = [];
 
-        preg_match_all(
-            '/(?<key_value>(?P<key>[a-zA-Z]+)(:|=)\s*(?P<value>(\/.*?\/(\||$))|([^\|]+)))/',
-            trim($validationString),
-            $matches
+        $rule_pairs = preg_split(
+            '/\s*\|\s*(?=required|regex|max|min|format|type|nonzero)/',
+            trim($validationString)
         );
 
-        foreach ($matches['key_value'] as $match) {
-            $kv = preg_split('/:|=/', trim($match), 2);
-            $parsedValidationString[$kv[0]] = $kv[1];
+        foreach ($rule_pairs as $rule_pair) {
+            $kv = preg_split('/:|=/', trim($rule_pair), 2);
+            $rules[trim($kv[0])] = trim($kv[1]);
         }
 
-        return $parsedValidationString;
+        return $rules;
     }
 
     /**

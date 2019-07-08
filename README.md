@@ -157,3 +157,6 @@ Array
     - required `bool`
 - type _url_
     - required `bool`
+
+__NOTE:__
+The validation string is parsed with following regex pattern: `\s*\|\s*(?=required|regex|max|min|format|type|nonzero)`. Do not use one `|min` or `|required` or any other rule name in any regex pattern or other rule value. If you do, your rule value gets split at the pipe operator and this will mess up the validation.
