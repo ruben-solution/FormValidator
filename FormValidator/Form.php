@@ -408,6 +408,8 @@ class Form
 
                         break;
                     case 'date':
+                    case 'datetime':
+                    case 'time':
                         if (!$this->validateDate($fieldValue, $rules)) {
                             $errors[] = $fieldKey;
                         }

@@ -15,7 +15,7 @@ abstract class Validate
 
     /**
      * @param string $str
-     * 
+     *
      * @return bool
      */
     public static function isStringNotEmpty(string $str): bool
@@ -30,7 +30,7 @@ abstract class Validate
      * @param string $str
      * @param int    $min
      * @param int    $max
-     * 
+     *
      * @return bool
      */
     public static function textLengthRange(string $str, int $min, int $max): bool
@@ -40,7 +40,7 @@ abstract class Validate
 
     /**
      * @param mixed $number
-     * 
+     *
      * @return bool
      */
     public static function isNumber($number): bool
@@ -50,7 +50,7 @@ abstract class Validate
 
     /**
      * @param mixed $number
-     * 
+     *
      * @return bool
      */
     public static function isNumberPos($number): bool
@@ -60,7 +60,7 @@ abstract class Validate
 
     /**
      * @param mixed $number
-     * 
+     *
      * @return bool
      */
     public static function isNumberNeg($number): bool
@@ -70,7 +70,7 @@ abstract class Validate
 
     /**
      * @param mixed $number
-     * 
+     *
      * @return bool
      */
     public static function isNumberNz($number): bool
@@ -80,7 +80,7 @@ abstract class Validate
 
     /**
      * @param string $url
-     * 
+     *
      * @return bool
      */
     public static function isUrl($url): bool
@@ -92,7 +92,7 @@ abstract class Validate
     /**
      * @param string $date
      * @param string $pattern
-     * 
+     *
      * @return bool
      */
     public static function isDate($date, string $pattern='Y-m-d'): bool
@@ -104,7 +104,7 @@ abstract class Validate
 
     /**
      * @param array $arr
-     * 
+     *
      * @return bool
      */
     public static function isArray($arr): bool
@@ -114,7 +114,7 @@ abstract class Validate
 
     /**
      * @param array $arr
-     * 
+     *
      * @return bool
      */
     public static function isArrayEmpty(array $arr): bool
@@ -125,7 +125,7 @@ abstract class Validate
     /**
      * @param string $color
      * @param int    $type
-     * 
+     *
      * @return bool
      */
     public static function isColor(string $color, int $type=self::COLOR_HEX): bool
@@ -157,7 +157,7 @@ abstract class Validate
 
     /**
      * @param string $email
-     * 
+     *
      * @return bool
      */
     public static function isEmail(string $email): bool
@@ -168,7 +168,7 @@ abstract class Validate
     /**
      * @param string $pattern
      * @param string $subject
-     * 
+     *
      * @return bool
      */
     public static function regex(string $pattern, string $subject): bool
