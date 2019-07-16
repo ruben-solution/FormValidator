@@ -30,7 +30,7 @@ class Form
     }
 
     /**
-     * Get field by key
+     * Add field
      *
      * @param Field $field
      */
@@ -44,6 +44,24 @@ class Form
         } else {
             return false;
         }
+    }
+
+    /**
+     * Add multiple fields
+     *
+     * @param array $fields
+     */
+    public function addFields(array $fields): bool
+    {
+        $success = true;
+
+        foreach ($fields as $field) {
+            if (!$this->addField($field)) {
+                $success = false;
+            }
+        }
+
+        return $success;
     }
 
     /**
