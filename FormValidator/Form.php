@@ -19,7 +19,7 @@ class Form
     /**
      * @param Field[] $fields
      */
-    function __construct(array $fields)
+    function __construct(array $fields=[])
     {
         foreach ($fields as $field) {
             if (!\in_array($field->getKey(), $this->keys)) {
