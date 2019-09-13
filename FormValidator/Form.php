@@ -354,9 +354,9 @@ class Form
         $errors = [];
 
         foreach ($this->fields as $field) {
-            $fieldKey      = $field->getKey();
-            $fieldValue    = $field->getValue();
-            $rules         = (
+            $fieldKey   = $field->getKey();
+            $fieldValue = $field->getValue();
+            $rules      = (
                 is_array($field->getRules()) ?
                     $field->getRules() :
                     $this->parseValidationString($field->getRules())
