@@ -22,7 +22,7 @@ if (count($errors) > 0) {
 
 ### Simple Form
 
-This is not a composer package (yet), so you habe to include the scripts manually.
+This is not a composer package, so you have to include the scripts manually.
 
 ```php
 require __DIR__ . '/FormValidator/Form.php';
